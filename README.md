@@ -3,7 +3,7 @@
 # Table To String Converter
 Generates a string from a table. Row by row and with a defined text mask.
 
-## What it does
+## How to use
 1. Select a table (*.xls or *.xlsx) file.
 2. Set the row offset for reading.
 3. Define keys to replace in the raw text sequence.

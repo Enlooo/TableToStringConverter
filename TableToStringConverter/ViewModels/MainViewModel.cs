@@ -97,16 +97,18 @@ namespace TableToStringConverter.ViewModels
 
             if (extension.Equals(XlsxFileExtension, StringComparison.InvariantCultureIgnoreCase))
             {
-                using (FileStream file = new FileStream(filePath, FileMode.Open, FileAccess.Read))
-                    return new XSSFWorkbook(file);
+                using FileStream file = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+                return new XSSFWorkbook(file);
             }
             else if (extension.Equals(XlsFileExtension, StringComparison.InvariantCultureIgnoreCase))
             {
-                using (FileStream file = new FileStream(filePath, FileMode.Open, FileAccess.Read))
-                    return new NPOI.HSSF.UserModel.HSSFWorkbook(file);
+                using FileStream file = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+                return new NPOI.HSSF.UserModel.HSSFWorkbook(file);
             }
             else
+            {
                 throw new NotSupportedException($"*.{extension} files are not supported.");
+            }
         }
 
         private string ReplaceTextByReplacementViewModel(ReplacementViewModel replacement, IRow row, string textSequence)
