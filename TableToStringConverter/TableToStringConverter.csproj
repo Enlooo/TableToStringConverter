@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <ApplicationIcon>icons8-umfrage-100.ico</ApplicationIcon>
+    <StartupObject></StartupObject>
+	  <!-- see https://github.com/aspnet/Razor/issues/2406 -->
+  <_RazorBuildServerPipeName>razor-issues-2406</_RazorBuildServerPipeName>
+  <PackageProjectUrl>https://github.com/Enlooo/TableToStringConverter</PackageProjectUrl>
+  <Copyright>Copyright (c) 2020 Enlooo</Copyright>
+  <RepositoryUrl>https://github.com/Enlooo/TableToStringConverter</RepositoryUrl>
+  <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+  <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Caliburn.Micro" Version="4.0.105-alpha" />
+    <PackageReference Include="NPOI" Version="2.5.1" />
+    <PackageReference Include="PropertyChanged.Fody" Version="3.2.8" />
+  </ItemGroup>
+
+</Project>
