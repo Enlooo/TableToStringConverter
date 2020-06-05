@@ -1,6 +1,8 @@
-![Table To String Converter](https://github.com/Enlooo/TableToStringConverter/blob/develop/TableToStringConverter/icons8-umfrage-100.ico "Logo Title Text 1")
+![Table To String Converter](https://github.com/Enlooo/TableToStringConverter/blob/develop/TableToStringConverter/icons8-umfrage-100.ico "Table To String Converter Icon")
 
 # Table To String Converter
+![Table To String Converter](https://github.com/Enlooo/TableToStringConverter/blob/develop/TableToTextConverter.png "Table To String Converter Screenshot")
+
 Generates a string from a table. Row by row and with a defined text mask.
 
 ## How to use
