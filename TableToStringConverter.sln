@@ -3,7 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29728.190
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TableToStringConverter", "TableToStringConverter\TableToStringConverter.csproj", "{DD7840B7-7D09-42E5-B99A-8E4DBC81E091}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TableToStringConverter", "TableToStringConverter\TableToStringConverter.csproj", "{DD7840B7-7D09-42E5-B99A-8E4DBC81E091}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestFiles", "TestFiles", "{B51E83BB-4465-46A7-B877-825B59BC8D9B}"
+	ProjectSection(SolutionItems) = preProject
+		TestFiles\TestTable.xls = TestFiles\TestTable.xls
+		TestFiles\TestTable.xlsx = TestFiles\TestTable.xlsx
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
