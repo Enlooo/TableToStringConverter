@@ -1,6 +1,5 @@
 ﻿using Caliburn.Micro;
 using Microsoft.Win32;
-using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
 using System;
@@ -14,6 +13,11 @@ namespace TableToStringConverter.ViewModels
 {
     public class MainViewModel : PropertyChangedBase
     {
+        private const string XlsFileExtension = ".xls";
+        private const string XlsxFileExtension = ".xlsx";
+
+        private string _selecteFilePath;
+
         public MainViewModel()
         {
             SelectFileCommand = new RelayCommand(_ => Task.Factory.StartNew(SelectFile));
@@ -29,18 +33,18 @@ namespace TableToStringConverter.ViewModels
             };
         }
 
-        public int Offset { get; set; }
-        public string SelectedFile { get; private set; }
-
-        private string _selecteFilePath;
-
-        public ICommand SelectFileCommand { get; }
-        public ICommand GenerateOutputCommand { get; }
-
-        public ICommand AddReplacementCommand { get; }
         public ICommand RemoveReplacementCommand { get; }
-
+        public ICommand AddReplacementCommand { get; }
+        public ICommand GenerateOutputCommand { get; }
+        public ICommand SelectFileCommand { get; }
         public ObservableCollection<ReplacementViewModel> ReplacementViewModels { get; }
+
+        public int WorkingSteps { get; set; }
+        public int CurrentWorkingStep { get; set; }
+
+        public string SelectedFile { get; private set; }
+        public int Offset { get; set; }
+        public string OutputText { get; private set; } = "Click 'Generate Output'";
 
         public string RawTextSequence { get; set; }
             = "<Outer>" + Environment.NewLine +
@@ -52,21 +56,14 @@ namespace TableToStringConverter.ViewModels
                "    <Inner>" + Environment.NewLine +
                "<Outer>" + Environment.NewLine;
 
-        public string OutputText { get; private set; } = "Click 'Generate Output'";
-        public int CurrentWorkingStep { get; set; }
-        public int WorkingSteps { get; set; }
-
         private void GenerateOutput(string filePath)
         {
             try
             {
                 CurrentWorkingStep = 0;
 
-                XSSFWorkbook hssfwb;
-                using (FileStream file = new FileStream(filePath, FileMode.Open, FileAccess.Read))
-                    hssfwb= new XSSFWorkbook(file);
-
-                ISheet sheet = hssfwb.GetSheetAt(0);
+                IWorkbook workbook = GetWorkbookFromFile(filePath);
+                ISheet sheet = workbook.GetSheetAt(0);
 
                 WorkingSteps = ReplacementViewModels.Count * sheet.LastRowNum;
                 OutputText = string.Empty;
@@ -94,6 +91,24 @@ namespace TableToStringConverter.ViewModels
             }
         }
 
+        private IWorkbook GetWorkbookFromFile(string filePath)
+        {
+            string extension = Path.GetExtension(filePath);
+
+            if (extension.Equals(XlsxFileExtension, StringComparison.InvariantCultureIgnoreCase))
+            {
+                using (FileStream file = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+                    return new XSSFWorkbook(file);
+            }
+            else if (extension.Equals(XlsFileExtension, StringComparison.InvariantCultureIgnoreCase))
+            {
+                using (FileStream file = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+                    return new NPOI.HSSF.UserModel.HSSFWorkbook(file);
+            }
+            else
+                throw new NotSupportedException($"*.{extension} files are not supported.");
+        }
+
         private string ReplaceTextByReplacementViewModel(ReplacementViewModel replacement, IRow row, string textSequence)
         {
             var cell = row.GetCell(replacement.ColumnIndex);
@@ -114,6 +129,9 @@ namespace TableToStringConverter.ViewModels
         private void SelectFile()
         {
             var fileDialog = new OpenFileDialog();
+            fileDialog.Filter = "XLS|*.xls";
+            fileDialog.Filter += "|XLSX|*.xlsx";
+
             if (fileDialog.ShowDialog() == true)
             {
                 SelectedFile = Path.GetFileName(fileDialog.FileName);
